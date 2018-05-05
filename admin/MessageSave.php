@@ -1,0 +1,20 @@
+<html>
+<head>
+<title>保存用户信息</title>
+</head>
+<body>
+<?PHP 
+  include('..\Class\Message.php');
+  $obj = new Message();
+  $obj->Recipient=$_POST["recipient"];
+  $obj->Sender=$_POST["sender"];
+  $obj->Content=$_POST["content"];
+  $obj->SendTime=$_POST["sendtime"];
+  $obj->insert();
+  echo("<script>alert('留言成功！')</script>");
+?>
+</body>
+<script>
+    setTimeout((location.href="UserList.php"),800);
+</script>
+</html>
