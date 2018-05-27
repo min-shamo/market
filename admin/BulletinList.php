@@ -4,16 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <title>公告管理</title>
-<link href="../style.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/bootstrap.min.css">  
+<script src="../js/jquery-3.2.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <script language="javascript">
-function BulletinWin(url) {
-  var oth="toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,left=200,top=200";
-  oth = oth+",width=400,height=300";
-  var BulletinWin = window.open(url,"BulletinWin",oth);
-  BulletinWin.focus();
-  return false;
-}
-
 function SelectChk()  //删除
 {
   var s = false; //用来记录是否存在被选中的复选框
@@ -75,13 +69,13 @@ function sltNull()  //清空
   $results = $obj->GetBulletinlistall();
   $exist = false;
 ?>
-<p align=center><font style='FONT-SIZE:12pt' color="#000080"><b>公 告 管 理</b></font></p>
-<table align=center border="1" cellspacing="0" width="100%" bordercolorlight="#4DA6FF" bordercolordark="#ECF5FF" style='FONT-SIZE: 9pt'>
+<p align=center><font style='FONT-SIZE:12pt'><b>公 告 管 理</b></font></p>
+<table align=center border="1" cellspacing="0" width="100%">
   <tr>
-   <td width="50%" align="center" bgcolor="#eeeeee"><strong>题目</strong></td>
-   <td width="30%" align="center" bgcolor="#eeeeee"><strong>时间</strong></td>
-   <td width="10%" align="center"  bgcolor="#eeeeee"><strong>修改</strong></td>
-   <td width="10%" align="center"  bgcolor="#eeeeee"><strong>选择</strong></td>
+   <td width="50%" align="center"><strong>题目</strong></td>
+   <td width="30%" align="center"><strong>时间</strong></td>
+   <td width="10%" align="center"><strong>修改</strong></td>
+   <td width="10%" align="center"><strong>选择</strong></td>
   </tr>
 <?PHP 
   //依次显示公告信息
@@ -90,9 +84,9 @@ function sltNull()  //清空
     $exist = true;
 ?>
   <tr>
-    <td><a href="../BulletinView.php?id=<?PHP echo($row[0]); ?>" onClick="return BulletinWin(this.href)"><?PHP echo($row[1]); ?></a></td>
+    <td align="center"><a href="#" data-toggle="modal" data-target="#myModal-edit" onclick="bullet(<?PHP echo($row[0]); ?>,1)"><?PHP echo($row[1]); ?></a></td>
     <td align="center"><?PHP echo($row[3]); ?></td>
-    <td align="center"><a href="BulletinEdit.php?id=<?PHP echo($row[0]); ?>" onClick="return BulletinWin(this.href)">修改</a></td>
+    <td align="center"><a href="#" data-toggle="modal" data-target="#myModal-edit" onclick="bullet(<?PHP echo($row[0]); ?>,2)">修改</a></td>
     <td align="center"><input type="checkbox" name="Bulletin" id="<?PHP echo($row[0]); ?>" style="font-size: 9pt"></td>
   </tr>
 <?PHP 
@@ -103,13 +97,128 @@ function sltNull()  //清空
   }
 ?>
 </table>
-    <p align="center">
-        <input type="button" value="添加公告" onclick="BulletinWin('BulletinAdd.php')" name=add>
+<div style="margin-top:20px;text-align:center">
+        <input type="button" value="添加公告" data-toggle="modal" data-target="#myModal" name=add>
          &nbsp;&nbsp;<input type="button" value="全 选" onclick="sltAll()" name=button1>
          &nbsp;&nbsp;<input type="button" value="清 空" onclick="sltNull()" name=button2>
           &nbsp;&nbsp;<input type="submit" value="删 除" name="tijiao" onclick="SelectChk()">
-<br><br>
+</div>
 <input type=hidden name="Bulletin">
 </form>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:400px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        增加新公告
+                    </h4>
+                </div>
+                <form class="bs-example bs-example-form" name="myform" role="form" method="POST" action="BulletinSave.php?action=add" onSubmit="return checkFields()">
+                    <div class="modal-body">
+                            <div class="form-group input-group" style="padding: 0 30px;width:100%">
+                                <span class="input-group-addon" style="width: 85px">题目：</span>
+                                <input type="text" class="form-control" name="title">
+                            </div>
+                            <div class="form-group input-group" style="padding: 0 30px;width:100%">
+                                <span class="input-group-addon" style="width: 85px">内容：</span>
+                                <textarea class="form-control" name="content"></textarea>
+                            </div>                  
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="reset" class="btn btn-default">重写</button>
+                        <button type="submit" class="btn btn-primary">
+                        确定
+                        </button>      
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="modal fade" id="myModal-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+        <div class="modal-dialog" style="width:400px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel2"></h4>
+                </div>
+                <form class="bs-example bs-example-form" role="form" method="POST" action="BulletinSave.php?action=edit">
+                    <div class="modal-body">
+                        <div class="form-group input-group" style="padding: 0 30px;width:100%">
+                            <span class="input-group-addon" style="width: 85px">题目：</span>
+                            <input type="text" class="form-control" name="title">
+                        </div>
+                        <div class="form-group input-group" style="padding: 0 30px;width:100%">
+                            <span class="input-group-addon" style="width: 85px">内容：</span>
+                            <textarea class="form-control" name="content"></textarea>
+                        </div>                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="reset" class="btn btn-default">重写</button>
+                        <button type="submit" class="btn btn-primary">
+                        确定
+                        </button>      
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+<script>
+    function bullet(id,type){
+        $.ajax({
+            url: 'BulletinEdit.php',
+            type: 'get',
+            datatype: 'json',
+            data: {
+                id: id
+            },
+            success: function(result){
+                //console.log(result);
+                result=JSON.parse(result);
+                $('#myModal-edit').find('input[name="title"]').val(result.title);
+                $('#myModal-edit').find('textarea[name="content"]').val(result.content);
+                $('#myModal-edit').find('form').attr("action","BulletinSave.php?action=edit&id="+id+"");
+                if(type==1){
+                    $('#myModalLabel2').html("查看公告");
+                    $('#myModal-edit').find('button[type="submit"]').hide();
+                    $('#myModal-edit').find('button[type="reset"]').hide();
+                    $('#myModal-edit').find('input[name="title"]').attr("readonly","true");
+                    $('#myModal-edit').find('textarea[name="content"]').attr("readonly","true");
+                }
+                else{
+                    $('#myModalLabel2').html("修改公告");
+                    $('#myModal-edit').find('button').show();
+                    $('#myModal-edit').find('input[name="title"]').removeAttr("readonly");
+                    $('#myModal-edit').find('textarea[name="content"]').removeAttr("readonly");
+                }
+            }
+        })
+    }
+    function checkFields()
+    {
+    if (myform.title.value=="") {
+       alert("公告题目不能为空");
+       return false
+    }
+    if (myform.content.value=="") {
+       alert("公告内容不能为空");
+       return false
+    }
+    return true;
+    }
+</script>
 </body>
 </html>

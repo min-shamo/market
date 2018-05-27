@@ -132,12 +132,12 @@
 		    <caption style="text-align:center">【<?php echo($objUser->UserId); ?>的商品信息】</caption>
 		    <thead>
 			    <tr>
-				    <th width="25%">商品图片</th>
+				    <th width="25%" style="text-align:center">商品图片</th>
 				    <th width="20%">商品名称</th>
 				    <th width="10%">价格</th>
                     <th width="10%">新旧程度</th>
                     <th width="20%">发布时间</th>
-                    <th width="15%">操作</th>
+                    <th width="15%" style="text-align:center">操作</th>
 			    </tr>
 		    </thead>
 		    <tbody>
@@ -148,13 +148,13 @@
             ?>
             <tr><td align=center bgcolor="#FFFFFF"><?php   if ($row[5]=="")
             {
-            ?><img src="../images/noImg.jpg" height=50 border=0>
+            ?><img src="../images/noImg.png" height=50 border=0>
             <?php   }
             else
             {
             ?><img src="images/<?php     echo($row[5]); ?>" height=50 border=0>
             <?php   } ?></td>
-            <td><a href="GoodsView.php?gid=<?PHP echo($row[0]); ?>" target=_blank><?PHP   echo($row[3]); ?></a></td>
+            <td><a href="../GoodsView.php?gid=<?PHP echo($row[0]); ?>" target=_blank><?PHP   echo($row[3]); ?></a></td>
             <td><?PHP   echo($row[6]); ?></td>
             <td><?PHP   echo($row[8]); ?>&nbsp;</td>
             <td><?PHP   echo($row[7]); ?></td>

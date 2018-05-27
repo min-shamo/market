@@ -106,7 +106,7 @@
 		?>
 		<?PHP if($obj->ImageURL=="")
 		{
-		?><img src="images/noImg.jpg" height=50 border=0>
+		?><img src="images/noImg.png" height=400 border=0>
 		<?PHP }
 		else
 		{
@@ -150,12 +150,17 @@
 			?>
 				<button type="submit" class="btn btn-default" onclick="tip(1)">留言</button>
                 <button type="submit" class="btn btn-default" onclick="tip(2)">投诉</button>
+                <button type="submit" class="btn btn-default" onclick="tip(3)">关注</button>
 			<?PHP
 			}
 			else{
+                include('Class\Follow.php');
+                $objFollow=new Follow();
+                $istrue=$objFollow->HaveFollow($gid,$UserId);
 			?>
 			    <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#myModal-message">留言</button>
                 <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#myModal-message1">投诉</button>
+                <button type="submit" class="btn btn-default follow" onclick="follow(<?PHP echo($gid) ?>)" <?PHP if($istrue)echo("disabled='disabled'") ?>><?PHP $v= ($istrue=="true") ? "已关注" : "关注";echo($v) ?></button>
 		<?PHP } ?>
 		</div>
     </div> 
@@ -170,8 +175,9 @@
                         用户登录
                     </h4>
                 </div>
+                <form class="bs-example bs-example-form" role="form" method="POST" action="putSession.php">
                 <div class="modal-body">
-                    <form class="bs-example bs-example-form" role="form" method="POST" action="putSession.php">
+                    
                         <div class="form-group input-group" style="padding: 0 30px">
                             <span class="input-group-addon" style="width: 85px">用户名：</span>
                             <input type="text" class="form-control" name="loginname" placeholder="username">
@@ -180,16 +186,17 @@
                             <span class="input-group-addon" style="width: 85px">密码：</span>
                             <input type="password" class="form-control" name="password" placeholder="password">
                         </div>
-                        <div class="modal-footer">
+                        
+                    
+                </div>
+                <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                             </button>
                             <button type="submit" class="btn btn-primary">
                             确定
                             </button>
                         </div>
-                    </form>
-                </div>
-                
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>
@@ -206,8 +213,9 @@
                         留言
                     </h4>
                 </div>
+                <form class="bs-example bs-example-form" role="form" method="POST" action="User/MessageSave.php">
                 <div class="modal-body">
-                    <form class="bs-example bs-example-form" role="form" method="POST" action="User/MessageSave.php">
+                    
                         <div class="form-group input-group" style="padding: 0 30px;width:100%">
                             <span class="input-group-addon" style="width: 85px">接收人：</span>
                             <input type="text" class="form-control" name="recipient" value="<?PHP echo($obj->OwnerId); ?>" readonly>
@@ -224,16 +232,17 @@
                             <span class="input-group-addon" style="width: 85px">时间：</span>
                             <input type="text" class="form-control" name="sendtime" value="<?PHP echo(strftime("%Y-%m-%d %H:%M:%S")); ?>" readonly>
                         </div>
-                        <div class="modal-footer">
+                        
+                    
+                </div>
+                <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                             </button>
                             <button type="submit" class="btn btn-primary">
                             确定
                             </button>
                         </div>
-                    </form>
-                </div>
-                
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>
@@ -250,8 +259,8 @@
                         投诉
                     </h4>
                 </div>
+                <form class="bs-example bs-example-form" role="form" method="POST" action="User/MessageSave.php">
                 <div class="modal-body">
-                    <form class="bs-example bs-example-form" role="form" method="POST" action="User/MessageSave.php">
                         <div class="form-group input-group" style="padding: 0 30px;width:100%">
                             <span class="input-group-addon" style="width: 85px">接收人：</span>
                             <input type="text" class="form-control" name="recipient" value="admin" readonly>
@@ -267,24 +276,23 @@
                         <div class="form-group input-group" style="padding: 0 30px;width:100%">
                             <span class="input-group-addon" style="width: 85px">时间：</span>
                             <input type="text" class="form-control" name="sendtime" value="<?PHP echo(strftime("%Y-%m-%d %H:%M:%S")); ?>" readonly>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                            确定
-                            </button>
-                        </div>
-                    </form>
+                        </div>   
                 </div>
-                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                    确定
+                    </button>
+                </div>
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>
         <!-- /.modal -->
     </div>
 </div>
- 	
+<div class="tip" style="display:none;text-align:center;line-height:30px;position:fixed;top:100px;left:50%;transform:translateX(-50%);color:red;width:150px;height:30px;background:#eee"></div>
 </body>
 <script>
     function tip(n){
@@ -296,8 +304,26 @@
         {
             alert("本人与游客不可投诉！")
         }
+        else if(n==3)
+        {
+            alert("本人与游客不可关注！")
+        }
 		
 	}
+    function follow(gid)
+    {
+        var gid=gid;
+        $.ajax({
+            url:"user/FollowEdit.php",
+            type:"GET",
+            data:{action:"add",id:gid},
+            success:function(result){
+                $('.tip').html(result).show();
+                setTimeout("$('.tip').hide()", 1000);
+                $('.follow').html("已关注").attr("disabled",true);
+            }
+        })
+    }
 //     $('#myModal-message').on('show.bs.modal', function (event) {
 //         var button = $(event.relatedTarget) // Button that triggered the modal
 //         var recipient = button.data('id') // Extract info from data-* attributes

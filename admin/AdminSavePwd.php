@@ -6,8 +6,8 @@
 <body>
 <?PHP 
   //session_start();
-  $OriPwd=$_POST["OriPwd"];
-  $Pwd=$_POST["Pwd"];
+  $OriPwd=$_POST["oldpassword"];
+  $Pwd=$_POST["password"];
   //判断是否存在此用户
   include('..\Class\Users.php');
   $obj = new Users();
@@ -15,10 +15,10 @@
   $obj->UserPwd=$OriPwd;
   if($obj->CheckUser()==false)
   {
-    print("不存在此用户名或密码错误！");
 ?>
     <Script Language="JavaScript">    
-      setTimeout("history.go(-1)",1600);            
+      alert("不存在此用户名或密码错误！");
+      history.go(-1)         
       </Script>
 <?PHP 
   }
@@ -26,8 +26,13 @@
   {
     $obj->UserPwd=$Pwd;
     $obj->setpwd($obj->UserId);
-    print("<h2>更改密码成功！</h2>");
-    $_SESSION["UserPwd"]=trim($Pwd);
+    $_SESSION["user_pwd"]=trim($Pwd);
+    ?>
+    <Script Language="JavaScript">    
+      alert("更改密码成功！");
+      location.href = "BulletinList.php";           
+      </Script>
+  <?PHP
   } 
 ?>    
 </body>

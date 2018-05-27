@@ -189,8 +189,8 @@
                         留言
                     </h4>
                 </div>
+                <form class="bs-example bs-example-form" role="form" method="POST" action="MessageSave.php">
                 <div class="modal-body">
-                    <form class="bs-example bs-example-form" role="form" method="POST" action="MessageSave.php">
                         <div class="form-group input-group" style="padding: 0 30px;width:100%">
                             <span class="input-group-addon" style="width: 85px">接收人：</span>
                             <input type="text" class="form-control" name="recipient" value="" readonly>
@@ -207,16 +207,17 @@
                             <span class="input-group-addon" style="width: 85px">时间：</span>
                             <input type="text" class="form-control" name="sendtime" value="<?PHP echo(strftime("%Y-%m-%d %H:%M:%S")); ?>" readonly>
                         </div>
-                        <div class="modal-footer">
+                        
+                    
+                </div>
+                <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                             </button>
                             <button type="submit" class="btn btn-primary">
                             确定
                             </button>
                         </div>
-                    </form>
-                </div>
-                
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>

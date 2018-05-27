@@ -22,7 +22,7 @@
   $obj->Price=$_POST["price"];
   $obj->StartTime=$_POST["addtime"];
   $obj->OldNew=$_POST["old"];
-  // $obj->Invoice=$_POST["invoice"];
+  $obj->Invoice=$_POST["Amount"];
   // $obj->Repaired=$_POST["repaired"];
   // $obj->Carriage=$_POST["carriage"];
   // $obj->PayMode=$_POST["pmode"];

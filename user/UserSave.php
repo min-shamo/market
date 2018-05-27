@@ -13,7 +13,7 @@
   $objUser->Sex=intval($_POST["sex"]); // 性别 
   // $objUser->Address=$_POST["address"]; // 地址
   // $objUser->Postcode=$_POST["telephone"]; // 邮编
-  // $objUser->Email=$_POST["email"]; // 电子邮件
+  $objUser->Email=$_POST["email"]; // 电子邮件
   // $objUser->Telephone=$_POST["telephone"]; // 电话
   $objUser->Mobile=$_POST["mobile"]; // 手机
   if ($_POST["isadd"]=="new")
@@ -30,7 +30,8 @@
     }
     else
     {
-      $objUser->UserType=0; // 用户类型
+      $objUser->UserType=0;
+      $objUser->getpasstime=0; // 用户类型
       $objUser->insert();
     } 
   }

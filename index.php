@@ -23,17 +23,18 @@
     <![endif]-->
 </head>
 <?PHP session_start(); ?>
+
 <body>
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid" style="margin: 0 50px">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">二手市场</a>
             </div>
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left" role="search" method="post" action="list.php?tid=">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" name="search" placeholder="Search">
                 </div>
-                <button type="submit" class="btn btn-default">提交</button>
+                <button type="submit" class="btn btn-default" onclick="location='list.php'">提交</button>
             </form>
             <?php
                 include('Class\Users.php');
@@ -45,47 +46,64 @@
                 $objUser->GetUsersInfo($UserId);
                 if($UserId!="" && $objUser->UserPwd==$Pwd) 
                 {
-                    if($objUser->UserType==1)
+                    if($objUser->UserType==1)//管理员判断
                     {
-                        echo("<script>window.location.href='admin/index.php'</script>");
+                        echo("<script>window.location.href = 'admin/index.php'</script>");
                     }
                     else
                     {
-            ?>       
+            ?>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a>
-                        <span class="glyphicon glyphicon-user"></span>&nbsp;<?PHP echo($objUser->UserId); ?></a>
+                        <span class="glyphicon glyphicon-user"></span>&nbsp;
+                        <?PHP echo($objUser->UserId); ?>
+                    </a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">个人中心
-                    <b class="caret"></b>
+                        <b class="caret"></b>
                     </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="user\GoodsAdd.php" target="_blank"><span class="glyphicon glyphicon-plus">&nbsp;</span>发布信息</a>
-                    </li>
-                    <li>
-                        <a href="user\MessageList.php?uid=" target="_blank"><span class="glyphicon glyphicon-envelope">&nbsp;</span>我的消息</a>
-                    </li>
-                    <li>
-                        <a href="user\UserView.php?uid=<?PHP   echo($objUser->UserId); ?>" target="_blank"><span class="glyphicon glyphicon-star">&nbsp;</span>我的商品</a>
-                    </li>
-                    <li>
-                        <a href='user\PwdChange.php?uid=<?PHP   echo($objUser->UserId); ?>' ><span class="glyphicon glyphicon-cog">&nbsp;</span>修改密码</a>
-                    </li>
-                    <li>
-                        <a href="LoginExit.php" onclick="return newswin(this.href)"><span class="glyphicon glyphicon-off">&nbsp;</span>退出登录</a>
-                    </li>
-                </ul>
-            </li>
-            </ul>    
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="user\GoodsAdd.php" target="_blank">
+                                <span class="glyphicon glyphicon-plus">&nbsp;</span>发布信息</a>
+                        </li>
+                        <li>
+                            <a href="user\MessageList.php?uid=" target="_blank">
+                                <span class="glyphicon glyphicon-envelope">&nbsp;</span>我的消息</a>
+                        </li>
+                        <li>
+                            <a href="user\UserView.php?uid=<?PHP   echo($objUser->UserId); ?>" target="_blank">
+                                <span class="glyphicon glyphicon-star">&nbsp;</span>我的商品</a>
+                        </li>
+                        <li>
+                            <a href="user\FollowList.php?uid=<?PHP  echo($objUser->UserId); ?>" target="_blank">
+                                <span class="glyphicon glyphicon-heart">&nbsp;</span>关注的商品</a>
+                        </li>
+                        <li>
+                            <a href='user\PwdChange.php?uid=<?PHP   echo($objUser->UserId); ?>'>
+                                <span class="glyphicon glyphicon-cog">&nbsp;</span>修改密码</a>
+                        </li>
+                        <li>
+                            <a href="LoginExit.php">
+                                <span class="glyphicon glyphicon-off">&nbsp;</span>退出登录</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
             <?PHP 
                     }
                 }
             else
                 {
-            ?>         
+                    if($UserId!=""&&$Pwd!="")
+                    {
+                        echo("<script>alert('登录失败！')</script>");
+                        $_SESSION["user_id"]="";
+                        $_SESSION["user_pwd"]="";
+                    }
+            ?>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a href="user/UserAdd.php" target=_blank>
@@ -110,8 +128,8 @@
                         用户登录
                     </h4>
                 </div>
-                <div class="modal-body">
-                    <form class="bs-example bs-example-form" role="form" method="POST" action="putSession.php">
+                <form class="bs-example bs-example-form" role="form" method="POST" action="putSession.php">
+                    <div class="modal-body">
                         <div class="form-group input-group" style="padding: 0 30px">
                             <span class="input-group-addon" style="width: 85px">用户名：</span>
                             <input type="text" class="form-control" name="loginname" placeholder="username">
@@ -120,26 +138,99 @@
                             <span class="input-group-addon" style="width: 85px">密码：</span>
                             <input type="password" class="form-control" name="password" placeholder="password">
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                            确定
-                            </button>
+                        <div style="padding: 0 30px;color:blue;cursor:pointer">
+                            <span id="find" data-toggle="modal" data-target="#Modal-find">忘记密码？</span>
                         </div>
-                    </form>
-                </div>
-                
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            确定
+                        </button>
+                    </div>
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>
         <!-- /.modal -->
     </div>
-    <div style="width: 20%;position:absolute;top:70px;left:20px;bottom:20px;padding:10px 20px;background:#eee">
-        <div>
+    <div class="modal fade" id="Modal-find" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:400px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="ModalLabel">
+                        重置密码
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group input-group" style="padding: 0 30px">
+                        <span class="input-group-addon">请输入注册的邮箱：</span>
+                    </div>
+                    <div class="form-group input-group" style="padding: 0 30px;width:100%">
+                        <input type="text" class="form-control" id="email">
+                        <span id="chkmsg"></span></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="submit" class="btn btn-primary email-btn">
+                        确定
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div style="width: 20%;padding:10px 20px;">
+        <div style="height:180px">
+            <p>最新公告</p>
+            <ul class="nav nav-pills nav-stacked">
+                <?PHP
+                    include('Class\Bulletin.php');
+                    $obj = new Bulletin();
+                    $results = $obj->GetBulletinlist(1);
+                    $exist=false;
+                    //使用循环语句,依次显示分类信息
+                    while($row = $results->fetch_row())
+                    {
+                    $exist = true;
+                    $title=$row[1];
+                    //显示新闻标题以及网页链接
+                    if(strlen($title)>8)//设置公告标题显示长度
+                    {
+                        $title=mb_substr($title,0,8,"utf-8");
+                    ?>
+                <li>
+                    <h4 style="text-align:center"><?PHP echo $title; ?>......</h4>
+                </li>
+                <?PHP  } 
+                    else{
+                    ?>
+                <li>
+                    <h4 style="text-align:center"><?PHP echo $title; ?></h4>
+                </li>
+                <?PHP } ?>
+                <li>
+                    <span style="text-align:left;margin:0 auto;width:80%;display:block;word-break:normal;white-space:pre-wrap;word-wrap: break-word;overflow: hidden;"><?PHP echo($row[2]); ?></span>
+                </li>
+                <?PHP } 
+                    if (!$exist)
+                    {
+                    print "暂且没有公告";
+                    }
+                    ?>
+            </ul>
+        </div>
+        <div style="height:250px">
             <p>商品分类</p>
             <ul class="nav nav-pills nav-stacked">
-            <?PHP
+                <?PHP
             //从表GoodsType中读取商品类别数据
             include('Class\GoodsType.php');
             $gtype = new GoodsType();
@@ -147,17 +238,19 @@
             //使用循环语句,依次显示分类信息
             while($row = $results->fetch_row())
             {  
-            ?>           
-                <li>
-                    <a style="padding:3px" href="List.php?tid=<?PHP echo($row[0]); ?>" target="_blank"><?PHP echo($row[1]); ?></a>
+            ?>
+                <li style="height:25px">
+                    <a style="display:inline" href="List.php?tid=<?PHP echo($row[0]); ?>" target="_blank">
+                        <?PHP echo($row[1]); ?>
+                    </a>
                 </li>
-            <?php } ?>
+                <?php } ?>
             </ul>
         </div>
-        <div style="margin:20px 0 0 0">
+        <div style="height:180px">
             <p>最受关注商品TOP5</p>
             <ul class="nav nav-pills nav-stacked">
-            <?PHP 
+                <?PHP 
             include('Class\Goods.php');
             $objGoods = new Goods();
             //查询前10个点击次数(ClickTimes)最多的\未结束的商品信息
@@ -170,10 +263,15 @@
             {
             $exist = true;
             ?>
-            <li style="height:25px">
-                <a style="display:inline;" href="GoodsView.php?gid=<?PHP     echo($row[0]); ?>" target="_blank"><?PHP     echo($row[3]); ?></a>(浏览<font color="red"><?PHP     echo($row[16]); ?></font>次)
-            </li>  
-            <?PHP 
+                <li style="height:25px">
+                    <a style="display:inline;" href="GoodsView.php?gid=<?PHP     echo($row[0]); ?>" target="_blank">
+                        <?PHP     echo($row[3]); ?>
+                    </a>(浏览
+                    <font color="red">
+                        <?PHP     echo($row[16]); ?>
+                    </font>次)
+                </li>
+                <?PHP 
             } 
             if (!$exist)
             {
@@ -182,10 +280,37 @@
             ?>
             </ul>
         </div>
+        <div style="height:180px">
+            <p>最新求购信息</p>
+            <ul class="nav nav-pills nav-stacked">
+                <?PHP 
+            $results1 = $objGoods->GetTopnNewBuys(5);
+            $exist = false;
+            //如果结果集为空,则显示提示信息
+
+            //依次显示结果集中的商品信息
+            while($row = $results1->fetch_row())
+            {
+            $exist = true;
+            ?>
+                <li style="height:25px">
+                    <a style="display:inline;" href="GoodsView.php?gid=<?PHP     echo($row[0]); ?>" target="_blank">
+                        <?PHP     echo($row[3]); ?>
+                    </a>
+                </li>
+                <?PHP 
+            } 
+            if (!$exist)
+            {
+            print "暂且没有信息";
+            }
+            ?>
+            </ul>
+        </div>
     </div>
     <div style="width: 75%;position:absolute;top:70px;right:20px;bottom:20px;">
         <div style="display:flex;justify-content: space-between;">
-            <div id="myCarousel" class="carousel slide" style="width:75%">
+            <div id="myCarousel" class="carousel slide" style="width:100%">
                 <!-- 轮播（Carousel）指标 -->
                 <ol class="carousel-indicators">
                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -215,51 +340,13 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-            <div style="text-align:center;width:24%;background:#eee;padding:10px 0">
-                <p>最新公告</p>
-                <ul class="nav nav-pills nav-stacked">
-                    <?PHP
-                    include('Class\Bulletin.php');
-                    $obj = new Bulletin();
-                    $results = $obj->GetBulletinlist(1);
-                    //使用循环语句,依次显示分类信息
-                    while($row = $results->fetch_row())
-                    {
-                    $exist = true;
-                    $title=$row[1];
-                    //显示新闻标题以及网页链接
-                    if(strlen($title)>20)//设置公告标题显示长度
-                    {
-                        $title=substr($title,0,20);
-                    ?>
-                    <li>
-                        <h4><?PHP echo $title; ?>......</h4>       
-                    </li>
-                    <?PHP  } 
-                    else{
-                    ?>    
-                    <li>
-                        <h4><?PHP echo $title; ?></h4>
-                    </li>
-                    <?PHP } ?>
-                    <li>
-                        <span style="text-align:left;margin:0 auto;width:80%;display:block;word-break:normal;white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ;"><?PHP echo($row[2]); ?></span>
-                    </li>
-                    <?PHP } 
-                    if (!$exist)
-                    {
-                    print "暂且没有公告";
-                    }
-                    ?>
-                </ul>
-            </div>
-        </div>      
+        </div>
         <p style="margin:10px 0 0 0">最新商品</p>
-        <div style="display: flex;justify-content: space-between; margin: 10px 0 0 0">
+        <div style="display: flex;justify-content: flex-start;flex-wrap:wrap; margin: 10px 0 10px 0">
             <?PHP
             $objGoods = new Goods();
             //查询前10个点击次数(ClickTimes)最多的\未结束的商品信息
-            $results = $objGoods->GetTopnNewGoods(4);
+            $results = $objGoods->GetTopnNewGoods(8);
             $exist = false;
             //如果结果集为空,则显示提示信息
 
@@ -268,25 +355,30 @@
             {
             $exist = true;
             ?>
-            <div style="cursor:pointer;width: 24%;text-align: center;border:1px solid #000" onclick="window.open('GoodsView.php?gid=<?PHP echo($row[0]); ?>')">
-            <?PHP 
+            <div class="good" style="cursor:pointer;width: 24%;margin:10px 1% 0 0;text-align: center;border:1px solid #000" onclick="window.open('GoodsView.php?gid=<?PHP echo($row[0]); ?>')">
+                <?PHP 
             //显示商品图片
             if (!isset($row[5]) || trim($row[5])=="")
             {
             ?>
                 <img border="0" src="images/noImg.png" width="100%" height="220">
-            <?PHP 
+                <?PHP 
             }
             else
             {
             ?>
-                <a href="GoodsView.php?gid=<?PHP     echo($row[0]); ?>" target=_blank>
-                <img border="0" src="user/images/<?PHP  echo($row[5]); ?>" width="100%" height="220"></a>
-            <?PHP 
+                <a>
+                    <img border="0" src="user/images/<?PHP  echo($row[5]); ?>" width="100%" height="220">
+                </a>
+                <?PHP 
             } 
             ?>
-                <div style="font-size:20px"><?PHP     echo($row[3]); ?></div>
-                <div style="color:red;font-size:16px">￥<?PHP     echo($row[6]); ?></div>
+                <div style="font-size:20px">
+                    <?PHP     echo($row[3]); ?>
+                </div>
+                <div style="color:red;font-size:16px">￥
+                    <?PHP     echo($row[6]); ?>
+                </div>
             </div>
             <?PHP 
             } 
@@ -297,11 +389,43 @@
             ?>
         </div>
     </div>
+    <div style="width:100px;height:20px;display:none;position: absolute;left:40%;top:100px" class="tip">登陆成功</div>
 </body>
 <script>
     $(function () {
         $("#myCarousel").carousel('cycle');
     });
+    $('.good').mouseover(function(){
+        $(this).css("background","#eee");
+        $(this).find('img').css("opacity","0.7")
+    })
+    $('.good').mouseout(function(){
+        $(this).css("background","#fff");
+        $(this).find('img').css("opacity","1")
+    })
+    $('#find').click(function(){
+        $('.close').click();
+    })
+    $(function(){
+	$(".email-btn").click(function(){
+		var email = $("#email").val();
+		var preg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; //匹配Email
+		if(email=='' || !preg.test(email)){
+			$("#chkmsg").html("请填写正确的邮箱！");
+		}else{
+			$(".email-btn").attr("disabled","disabled");
+			$.post("sendmail.php",{mail:email},function(msg){
+				if(msg=="noreg"){
+					$("#chkmsg").html("该邮箱尚未注册！");
+					$(".email-btn").removeAttr("disabled");
+				}
+                else{
+				 	$("#chkmsg").html("<h3>"+msg+"</h3>");
+				}
+			});
+		}
+	});
+})
 </script>
 
 </html>

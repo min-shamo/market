@@ -1,6 +1,8 @@
 <?PHP include('isAdmin.php'); ?>
 <head>
-<link href="../style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
 </head>
 <?PHP 
   $m=0;
@@ -45,7 +47,7 @@
 } 
 if ($m==0)
 {
-  print "<tr><td align=center colspan=5>没有商品</td></tr>";
+  print "<tr><td align=center colspan=6>没有商品</td></tr>";
 } 
 ?>
 </table>   

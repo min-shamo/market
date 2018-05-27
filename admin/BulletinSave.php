@@ -5,7 +5,7 @@
 </head>
 <body>
 <?PHP 
-date_default_timezone_set("PRC");
+  date_default_timezone_set("PRC");
   include('..\Class\Users.php');
   include('..\Class\Bulletin.php');
   //session_start();
@@ -19,7 +19,7 @@ date_default_timezone_set("PRC");
   //取得公告题目和内容和提交人用户名
   $objBul->Title=$_POST["title"];
   $objBul->Content=$_POST["content"];
-  $objBul->Poster=$objUser->Name;
+  $objBul->Poster=$objUser->UserId;
   $objBul->PostTime=strftime("%Y-%m-%d %H:%M:%S");
 
   if ($StrAction=="add")
@@ -33,13 +33,10 @@ date_default_timezone_set("PRC");
     $id=$_GET["id"];
     $objBul->update($id);
   } 
-
-  print "<h3>公告成功保存</h3>";
 ?>
 </body>
 <script language="javascript">
-  // 刷新父级窗口，延迟此关闭
-  opener.location.reload();
-  setTimeout("window.close()",800);
+  alert("公告成功保存！");
+  location.href = "BulletinList.php";
 </script>
 </html>

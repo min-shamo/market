@@ -1,4 +1,3 @@
-<meta http-equiv=”Content-Type” content=”text/html; charset=utf-8″> 
 <?PHP
 //本类用于保存对表Bulletin的数据库访问操作
 //表的每个字段对应类的一个成员变量

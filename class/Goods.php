@@ -11,7 +11,7 @@ class Goods  {
   public $Price;                //  转让价格
   public $StartTime;            // 开始时间
   public $OldNew;                // 新旧程度
-  public $Invoice;                // 是否有发票
+  public $Amount;                // 是否有发票
   public $Repaired;                // 是否保修
   public $Carriage;                // 运费
   public $PayMode;                // 支付方式
@@ -49,7 +49,7 @@ class Goods  {
       $this->Price = $row[6];
       $this->StartTime = $row[7];
       $this->OldNew = $row[8];
-      $this->Invoice = $row[9];
+      $this->Amount = $row[9];
       $this->Repaired = $row[10];
       $this->Carriage = $row[11];
       $this->PayMode = $row[12];
@@ -80,7 +80,14 @@ class Goods  {
     $results = $this->conn->query($sql);
     return $results;
   }
-
+  // 获取最新添加的求购信息
+  function GetTopnNewBuys($n)  {
+    // 设置查询的SELECT语句
+    $sql = "SELECT * FROM Goods WHERE IsOver=0 AND SaleOrBuy=2 ORDER BY StartTime DESC LIMIT 0," . $n;
+    //打开记录集
+    $results = $this->conn->query($sql);
+    return $results;
+  }
   // 获取前n名最受关注的商品
   function GetTopnMaxClick($n)  {
     // 设置查询的SELECT语句
@@ -105,7 +112,7 @@ class Goods  {
 
   // 添加信息
   function insert()  {
-    $sql = "INSERT INTO Goods (TypeId, SaleOrBuy, GoodsName, GoodsDetail, ImageUrl, Price, StartTime, OldNew, IsOver, OwnerId, ClickTimes) VALUES (" . $this->TypeId. "," . $this->SaleOrBuy . ",'" . $this->GoodsName . "','" . $this->GoodsDetail . "','" . $this->ImageUrl . "','" . $this->Price . "','" . $this->StartTime . "','" . $this->OldNew . "',0,'" . $this->OwnerId . "',0)";
+    $sql = "INSERT INTO Goods (TypeId, SaleOrBuy, GoodsName, GoodsDetail, ImageUrl, Price, StartTime, OldNew, Amount, IsOver, OwnerId, ClickTimes) VALUES (" . $this->TypeId. "," . $this->SaleOrBuy . ",'" . $this->GoodsName . "','" . $this->GoodsDetail . "','" . $this->ImageUrl . "','" . $this->Price . "','" . $this->StartTime . "','" . $this->OldNew . "','" . $this->Amount . "',0,'" . $this->OwnerId . "',0)";
     //执行SQL语句
     $this->conn->query($sql);
   }

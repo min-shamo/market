@@ -55,6 +55,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="email" class="col-sm-2 control-label">邮箱</label><font style="color:red;font-size:20px">*</font>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="email" placeholder="请输入邮箱">
+            </div>
+        </div>
+        <div class="form-group">
         <label class="col-sm-2 control-label"></label>
             <div class="col-sm-10">
                 <button type="submit" class="btn btn-default" style="width:100%;height:40px;color: white;background: #ff552e">注册</button>
@@ -76,11 +82,11 @@
         myform.userid.focus()
         return false
     }
-    // if (document.myform.username.value=='') {        
-    //     window.alert ("请输入用户姓名！")
-    //     myform.username.focus()
-    //     return false
-    // }
+    if (document.myform.email.value=='') {        
+        window.alert ("请输入邮箱！")
+        myform.email.focus()
+        return false
+    }
     if (document.myform.mobile.value=='') {        
         window.alert ("请输入手机号码！")
         myform.mobile.focus()

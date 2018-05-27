@@ -62,6 +62,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="Amount" class="col-sm-2 control-label">数量</label><font style="color:red;font-size:20px">*</font>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="Amount" placeholder="请输入数量">
+            </div>
+        </div>
+        <div class="form-group">
             <label for="saleorbuy" class="col-sm-2 control-label">交易类型</label>
             <div class="col-sm-10">
                 <select class="form-control" name="saleorbuy">

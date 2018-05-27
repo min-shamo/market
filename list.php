@@ -90,17 +90,22 @@
     //读取参数, tid表示商品类型编号，flag表示转让或求购类型
     $tid=intval($_GET["tid"]);
     @$flag=intval($_GET["flag"]);
+    @$search=$_POST["search"];
+    if($search=="")
+    {
+        @$search=$_GET["search"];
+    }
     if($flag==0)
     {
     ?>
         <li class="active"><a data-toggle="tab">
 		    转让信息</a></li>
-	    <li><a href="list.php?flag=1&tid=<?PHP echo($tid); ?>">求购信息</a></li>
+	    <li><a href="list.php?flag=1&search=<?PHP echo($search); ?>&tid=<?PHP echo($tid); ?>">求购信息</a></li>
     <?PHP }
     else
     {
     ?>
-        <li><a href="list.php?flag=0&tid=<?PHP   echo($tid); ?>">
+        <li><a href="list.php?flag=0&search=<?PHP echo($search); ?>&tid=<?PHP   echo($tid); ?>">
 		    转让信息</a></li>
 	    <li class="active"><a data-toggle="tab">求购信息</a></li>
     <?PHP } ?>  
@@ -113,7 +118,13 @@
             include('Class\GoodsType.php');
             $objType = new GoodsType();
             $objType->GetGoodsTypeInfo($tid);
-            echo($objType->TypeName);
+            if($objType->TypeName!="")
+            {
+                echo($objType->TypeName);
+            }
+            else{
+                echo($search);
+            }
             ?>】</caption>
 		    <thead>
 			    <tr>
@@ -142,6 +153,10 @@
             {
                 $cond=$cond." AND TypeId=".$tid;
             } 
+            if($search!="")
+            {
+                $cond=$cond." AND GoodsName LIKE '%$search%'";
+            }
             // 只查看未结束的商品
             $cond=$cond." AND IsOver=0";
             //创建Goods对象，读取满足条件的记录
@@ -154,7 +169,7 @@
             ?>
             <tr><td align=center bgcolor="#FFFFFF"><?PHP   if ($row[5]=="")
             {
-            ?><img src="images/noImg.jpg" height=50 border=0>
+            ?><img src="images/noImg.png" height=50 border=0>
             <?PHP   }
                 else
             {

@@ -9,10 +9,11 @@ class Users
     public $Sex;        // 性别
     //public $Address;    // 地址
     //public $Postcode;   // 邮编
-    //public $Email;        // 电子邮件
+    public $Email;        // 电子邮件
     //public $Telephone;    // 电话
     public $Mobile;        // 手机
     public $UserType;    // 用户类型
+    public $getpasstime;
     var $conn;
 
   function __construct() {
@@ -39,7 +40,8 @@ class Users
       $this->Sex=$row[2];
       //$this->Address=$row[4];
       //$this->Postcode=$row[5];
-      //$this->Email=$row[6];
+      $this->Email=$row[5];
+      $this->getpasstime=$row[6];
       //$this->Telephone=$row[7];
       $this->Mobile=$row[3];
       $this->UserType=$row[4];
@@ -102,7 +104,7 @@ class Users
   function insert()
   {
     $sql="INSERT INTO Users VALUES ('" . $this->UserId . "','" . $this->UserPwd
-     . "'," . $this->Sex . ",'" . $this->Mobile . "'," . $this->UserType . ")";
+     . "'," . $this->Sex . ",'" . $this->Mobile . "'," . $this->UserType . ",'" . $this->Email . "','" . $this->getpasstime . "')";
     //执行SQL语句
     $this->conn->query($sql);
   } 
