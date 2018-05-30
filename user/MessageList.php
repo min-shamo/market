@@ -116,7 +116,7 @@
                             $name=$row[2];
                             $content=$row[3];
                     ?>
-                        <li class="message-li1" style="cursor:pointer;display:none">
+                        <li class="message-li1 message-li" style="cursor:pointer;display:none">
                         <div style="padding:10px 15px 10px 15px;display:flex;">
                             <div style="width:80%"  data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="<?PHP echo($row[3]); ?>" title="留言详情">
                                 <div style="display:flex;flex-direction:start;margin-bottom:10px">
@@ -149,7 +149,7 @@
                         {
                             $content=$row[3];
                         ?>
-                        <li class="message-li2" style="cursor:pointer">
+                        <li class="message-li2 message-li" style="cursor:pointer">
                         <div style="padding:10px 15px 10px 15px;display:flex;">
                             <div style="width:80%"  data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="<?PHP echo($row[3]); ?>" title="留言详情">
                                 <div style="display:flex;flex-direction:start;margin-bottom:10px">
@@ -172,7 +172,7 @@
                         </li>
                         <?PHP
                         $m++;
-                        } 
+                        }
                         ?>        
                 </ul>
             </div>
@@ -229,7 +229,7 @@
     $(function() {  
     $("[data-toggle='popover']").popover({  
         html : true,      
-        delay:{show:500, hide:1000}
+        delay:{show:100, hide:100}
     });  
 }); 
     $('.li-1').click(function(){

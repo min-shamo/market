@@ -7,6 +7,21 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <style>
+        .tip{
+            display:none;
+            text-align:center;
+            line-height:30px;
+            position:fixed;
+            top:100px;
+            left:50%;transform:translateX(-50%);
+            color:red;
+            width:180px;
+            height:30px;
+            background:#eee;
+            border-radius:30px;
+        }
+    </style>
 </head>
 <?PHP 
     session_start(); 
@@ -141,7 +156,7 @@
                                         <p style="padding: 6px 12px;">交易结束</P>
                                         <?php }else{
                                             ?>
-                                        <button class="btn btn-default" style="margin-bottom:10px">联系卖家</button>
+                                        <button class="btn btn-default" style="margin-bottom:10px" data-toggle="modal" data-target="#myModal-message">联系卖家</button>
                                         <button class="btn btn-default" style="margin-bottom:10px" onclick="follow(<?PHP echo($fid) ?>)">取消关注</button>
                                         <?php
                                         } ?>
@@ -163,7 +178,53 @@
                 </div>
         </div>
     </div>
-    <div class="tip" style="display:none;text-align:center;line-height:30px;position:fixed;top:100px;left:50%;transform:translateX(-50%);color:red;width:150px;height:30px;background:#eee"></div>
+    <div class="modal fade" id="myModal-message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        留言
+                    </h4>
+                </div>
+                <form class="bs-example bs-example-form" role="form" method="POST" action="User/MessageSave.php">
+                <div class="modal-body">
+                    
+                        <div class="form-group input-group" style="padding: 0 30px;width:100%">
+                            <span class="input-group-addon" style="width: 85px">接收人：</span>
+                            <input type="text" class="form-control" name="recipient" value="<?PHP echo($obj->OwnerId); ?>" readonly>
+                        </div>
+                        <div class="form-group input-group" style="padding: 0 30px;width:100%">
+                            <span class="input-group-addon" style="width: 85px">发送人：</span>
+                            <input type="text" class="form-control" name="sender" value="<?PHP echo($UserId); ?>" readonly>
+                        </div>
+						<div class="form-group input-group" style="padding: 0 30px;width:100%">
+                            <span class="input-group-addon" style="width: 85px">内容：</span>
+                            <textarea class="form-control" name="content"></textarea>
+                        </div>
+                        <div class="form-group input-group" style="padding: 0 30px;width:100%">
+                            <span class="input-group-addon" style="width: 85px">时间：</span>
+                            <input type="text" class="form-control" name="sendtime" value="<?PHP echo(strftime("%Y-%m-%d %H:%M:%S")); ?>" readonly>
+                        </div>
+                        
+                    
+                </div>
+                <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                            确定
+                            </button>
+                        </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="tip"></div>
 </body>
 <script>
     function follow(fid)

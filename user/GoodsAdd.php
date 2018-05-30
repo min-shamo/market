@@ -89,7 +89,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="goodimage" class="col-sm-2 control-label">商品图片</label><font style="color:red;font-size:20px">*</font>
+            <label for="goodimage" class="col-sm-2 control-label">商品图片</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="goodimage" readonly>
             </div>
@@ -108,5 +108,35 @@
         </div>
     </form>
     </div>
+    <script>
+        function ChkFields() {
+        if (document.myform.goodname.value=='') {
+            window.alert ("请输入商品名称！")
+            myform.goodname.focus()
+            return false
+        }
+        if (document.myform.goodname.value.length<=1) {
+            window.alert ("商品名称长度必须大于1！")
+            myform.goodname.focus()
+            return false
+        }
+        if (document.myform.old.value=='') {        
+            window.alert ("请输入新旧程度！")
+            myform.old.focus()
+            return false
+        }
+        if (document.myform.Amount.value=='') {        
+            window.alert ("请输入数量！")
+            myform.Amount.focus()
+            return false
+        }
+        if (document.myform.detail.value=='') {        
+            window.alert ("请输入商品详情！")
+            myform.detail.focus()
+            return false
+        }
+        return true
+    }
+    </script>
 </body>
 </html>

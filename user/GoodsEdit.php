@@ -26,6 +26,7 @@
     <img width="100%" height="100%" style="z-index:-1;position:fixed;_position:absolute;left:0;right:0;bottom:0;top:0;" src="../images/back.png">
     <div style="width:550px;margin: 30px auto;padding:30px;background: #fff;">
         <form class="form-horizontal" role="form" method="POST" action="GoodsSave.php?action=edit&gid=<?php echo($gid); ?>" name="myform" onSubmit="return ChkFields()">
+        <h4 style="text-align:center;margin-bottom:20px">修改商品信息</h4>
         <div class="form-group">
             <label for="typeid" class="col-sm-2 control-label">选择分类</label>
             <div class="col-sm-10">
@@ -62,6 +63,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="Amount" class="col-sm-2 control-label">数量</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="Amount" placeholder="请输入数量">
+            </div>
+        </div>
+        <div class="form-group">
             <label for="addtime" class="col-sm-2 control-label">添加时间</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="addtime" value="<?php echo($obj->StartTime); ?>" readonly>
@@ -71,6 +78,18 @@
             <label for="detail" class="col-sm-2 control-label">商品详情</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="detail" value="<?php echo($obj->GoodsDetail); ?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="goodimage" class="col-sm-2 control-label">商品图片</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="goodimage" value="<?PHP echo($obj->ImageURL); ?>" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="goodimage" class="col-sm-2 control-label">&nbsp;&nbsp;</label>
+            <div class="col-sm-10">
+                <iframe frameborder="0" height="40" width="100%" scrolling="no" src="upload.php" ></iframe>
             </div>
         </div>
         <div class="form-group">

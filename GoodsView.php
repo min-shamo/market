@@ -6,6 +6,24 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">  
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+    <style>
+        .btn{
+            width:80px;
+        }
+        .tip{
+            display:none;
+            text-align:center;
+            line-height:30px;
+            position:fixed;
+            top:100px;
+            left:50%;transform:translateX(-50%);
+            color:red;
+            width:180px;
+            height:30px;
+            background:#eee;
+            border-radius:30px;
+        }
+    </style>
 </head>
 <?PHP 
     session_start(); 
@@ -121,7 +139,15 @@
 		</div>
 		<div>
 			<label>商品价格：</label>
-			<label style="color:red">￥<?PHP echo($obj->Price); ?></label>
+			<label style="color:red">
+            <?PHP 
+            if($obj->Price!="")
+            {
+                echo("￥".$obj->Price);
+            }
+            else{
+                echo($obj->Price);
+            } ?></label>
 		</div>
 		<div>
 			<label>&nbsp;所 有 者：</label>
@@ -138,19 +164,23 @@
 		<div>
 			<label>新旧程度：</label>
 			<label><?PHP echo($obj->OldNew); ?></label>
+        </div>
+        <div>
+			<label>数量：</label>
+			<label><?PHP echo($obj->Amount); ?></label>
 		</div>
 		<div>
 			<label>商品描述：</label>
 			<span style="text-align:left;display:block;word-break:normal;white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ;"><?PHP echo($obj->GoodsDetail); ?></span>
 		</div>
-		<div style="text-align:center">
+		<div style="text-align:center;margin:10px;">
 			<?PHP 
 			if($obj->OwnerId==$UserId || $UserId=="")
 			{
 			?>
-				<button type="submit" class="btn btn-default" onclick="tip(1)">留言</button>
-                <button type="submit" class="btn btn-default" onclick="tip(2)">投诉</button>
-                <button type="submit" class="btn btn-default" onclick="tip(3)">关注</button>
+				<button type="submit" style="background: #ff552e;color:#fff" class="btn btn-default" onclick="tip(1)">留言</button>
+                <button type="submit" style="background: #666;color:#fff" class="btn btn-default" onclick="tip(2)">投诉</button>
+                <button type="submit" style="background: #9900ff;color:#fff" class="btn btn-default" onclick="tip(3)">关注</button>
 			<?PHP
 			}
 			else{
@@ -158,9 +188,9 @@
                 $objFollow=new Follow();
                 $istrue=$objFollow->HaveFollow($gid,$UserId);
 			?>
-			    <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#myModal-message">留言</button>
-                <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#myModal-message1">投诉</button>
-                <button type="submit" class="btn btn-default follow" onclick="follow(<?PHP echo($gid) ?>)" <?PHP if($istrue)echo("disabled='disabled'") ?>><?PHP $v= ($istrue=="true") ? "已关注" : "关注";echo($v) ?></button>
+			    <button type="submit" style="background: #ff552e;color:#fff" class="btn btn-default" data-toggle="modal" data-target="#myModal-message">留言</button>
+                <button type="submit" style="background: #666;color:#fff" class="btn btn-default" data-toggle="modal" data-target="#myModal-message1">投诉</button>
+                <button type="submit" style="background: #9900ff;color:#fff" class="btn btn-default follow" onclick="follow(<?PHP echo($gid) ?>)" <?PHP if($istrue)echo("disabled='disabled'") ?>><?PHP $v= ($istrue=="true") ? "已关注" : "关注";echo($v) ?></button>
 		<?PHP } ?>
 		</div>
     </div> 
@@ -292,21 +322,27 @@
         <!-- /.modal -->
     </div>
 </div>
-<div class="tip" style="display:none;text-align:center;line-height:30px;position:fixed;top:100px;left:50%;transform:translateX(-50%);color:red;width:150px;height:30px;background:#eee"></div>
+<div class="tip"></div>
 </body>
 <script>
     function tip(n){
         if(n==1)
         {
-            alert("本人与游客不可留言！")
+            //alert("本人与游客不可留言！")
+            $('.tip').html("本人与游客不可留言！").show();
+            setTimeout("$('.tip').hide()", 2000);
         }
         else if(n==2)
         {
-            alert("本人与游客不可投诉！")
+            //alert("本人与游客不可投诉！")
+            $('.tip').html("本人与游客不可投诉！").show();
+            setTimeout("$('.tip').hide()", 2000);
         }
         else if(n==3)
         {
-            alert("本人与游客不可关注！")
+            //alert("本人与游客不可关注！")
+            $('.tip').html("本人与游客不可关注！").show();
+            setTimeout("$('.tip').hide()", 2000);
         }
 		
 	}
@@ -319,7 +355,7 @@
             data:{action:"add",id:gid},
             success:function(result){
                 $('.tip').html(result).show();
-                setTimeout("$('.tip').hide()", 1000);
+                setTimeout("$('.tip').hide()", 2000);
                 $('.follow').html("已关注").attr("disabled",true);
             }
         })

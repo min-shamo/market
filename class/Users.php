@@ -47,7 +47,11 @@ class Users
       $this->UserType=$row[4];
     }
     else
+    {
       $this->UserId = "";
+      $this->UserPwd = "error";
+    }
+      
   } 
 
   //获取所有个人信息，返回结果集

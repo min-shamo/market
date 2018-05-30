@@ -128,7 +128,7 @@
                         用户登录
                     </h4>
                 </div>
-                <form class="bs-example bs-example-form" role="form" method="POST" action="putSession.php">
+                <form class="bs-example bs-example-form" role="form" method="POST" action="putSession.php" onsubmit="return check()">
                     <div class="modal-body">
                         <div class="form-group input-group" style="padding: 0 30px">
                             <span class="input-group-addon" style="width: 85px">用户名：</span>
@@ -141,6 +141,7 @@
                         <div style="padding: 0 30px;color:blue;cursor:pointer">
                             <span id="find" data-toggle="modal" data-target="#Modal-find">忘记密码？</span>
                         </div>
+                        <div class="tip" style="display:none;text-align:center;line-height:30px;position:fixed;top:20px;left:50%;transform:translateX(-50%);color:red;width:150px;height:30px;background:#eee"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -168,12 +169,16 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group input-group" style="padding: 0 30px">
-                        <span class="input-group-addon">请输入注册的邮箱：</span>
+                        <span class="input-group-addon">请输入用户和注册的邮箱：</span>
                     </div>
                     <div class="form-group input-group" style="padding: 0 30px;width:100%">
-                        <input type="text" class="form-control" id="email">
-                        <span id="chkmsg"></span></p>
+                        <input type="text" class="form-control" id="uid" placeholder="username">
                     </div>
+                    <div class="form-group input-group" style="padding: 0 30px;width:100%">
+                        <input type="text" class="form-control" id="email" placeholder="email">
+                        <span id="chkmsg" style="color:red"></span></p>
+                    </div>
+                    <div class="tip1" style="display:none;text-align:center;line-height:30px;position:fixed;top:20px;left:50%;transform:translateX(-50%);color:red;width:200px;height:30px;background:#eee"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -207,13 +212,13 @@
                         $title=mb_substr($title,0,8,"utf-8");
                     ?>
                 <li>
-                    <h4 style="text-align:center"><?PHP echo $title; ?>......</h4>
+                    <h5 style="text-align:center"><?PHP echo $title; ?>......</h5>
                 </li>
                 <?PHP  } 
                     else{
                     ?>
                 <li>
-                    <h4 style="text-align:center"><?PHP echo $title; ?></h4>
+                    <h5 style="text-align:center"><?PHP echo $title; ?></h5>
                 </li>
                 <?PHP } ?>
                 <li>
@@ -296,7 +301,10 @@
                 <li style="height:25px">
                     <a style="display:inline;" href="GoodsView.php?gid=<?PHP     echo($row[0]); ?>" target="_blank">
                         <?PHP     echo($row[3]); ?>
-                    </a>
+                    </a>(
+                    <font>
+                        <?PHP     echo($row[7]); ?>
+                    </font>)
                 </li>
                 <?PHP 
             } 
@@ -355,7 +363,7 @@
             {
             $exist = true;
             ?>
-            <div class="good" style="cursor:pointer;width: 24%;margin:10px 1% 0 0;text-align: center;border:1px solid #000" onclick="window.open('GoodsView.php?gid=<?PHP echo($row[0]); ?>')">
+            <div class="good" style="cursor:pointer;width: 24%;margin:10px 1% 0 0;text-align: center;box-shadow:0 0 5px #000" onclick="window.open('GoodsView.php?gid=<?PHP echo($row[0]); ?>')">
                 <?PHP 
             //显示商品图片
             if (!isset($row[5]) || trim($row[5])=="")
@@ -389,7 +397,7 @@
             ?>
         </div>
     </div>
-    <div style="width:100px;height:20px;display:none;position: absolute;left:40%;top:100px" class="tip">登陆成功</div>
+    <div class="tip2" style="display:none;text-align:center;line-height:30px;position:fixed;top:20px;left:50%;transform:translateX(-50%);color:red;width:200px;height:30px;background:#eee"></div>
 </body>
 <script>
     $(function () {
@@ -406,23 +414,47 @@
     $('#find').click(function(){
         $('.close').click();
     })
+    function check(){
+        if($('#myModal').find('input[name="loginname"]').val()=="")
+        {
+            $('.tip').html("请输入用户名！").show();
+            setTimeout("$('.tip').hide()", 1000);
+            return false;
+        }
+        else if($('#myModal').find('input[name="password"]').val()=="")
+        {
+            $('.tip').html("请输入密码！").show();
+            setTimeout("$('.tip').hide()", 1000);
+            return false;
+        }
+        return true;
+    }
     $(function(){
 	$(".email-btn").click(function(){
 		var email = $("#email").val();
+        var uid = $("#uid").val();
 		var preg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; //匹配Email
-		if(email=='' || !preg.test(email)){
-			$("#chkmsg").html("请填写正确的邮箱！");
+        if(uid=='')
+        {
+            $(".tip1").html("请输入用户名！").show();
+            setTimeout("$('.tip1').hide()", 1000);
+        }
+		else if(email=='' || !preg.test(email)){
+			$(".tip1").html("请填写正确的邮箱！").show();
+            setTimeout("$('.tip1').hide()", 1000);
 		}else{
-			$(".email-btn").attr("disabled","disabled");
-			$.post("sendmail.php",{mail:email},function(msg){
-				if(msg=="noreg"){
-					$("#chkmsg").html("该邮箱尚未注册！");
-					$(".email-btn").removeAttr("disabled");
-				}
-                else{
-				 	$("#chkmsg").html("<h3>"+msg+"</h3>");
-				}
-			});
+			$.ajax({
+                url:'sendmail.php',
+                type:'post',
+                data:{
+                    uid:uid,email:email
+                },
+                success:function(result){
+                    $('.close').click();
+                    $('.tip2').html(result).show();
+                    setTimeout("$('.tip2').hide()", 3000);
+                }
+            })
 		}
 	});
 })

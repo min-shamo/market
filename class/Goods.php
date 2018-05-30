@@ -112,13 +112,13 @@ class Goods  {
 
   // 添加信息
   function insert()  {
-    $sql = "INSERT INTO Goods (TypeId, SaleOrBuy, GoodsName, GoodsDetail, ImageUrl, Price, StartTime, OldNew, Amount, IsOver, OwnerId, ClickTimes) VALUES (" . $this->TypeId. "," . $this->SaleOrBuy . ",'" . $this->GoodsName . "','" . $this->GoodsDetail . "','" . $this->ImageUrl . "','" . $this->Price . "','" . $this->StartTime . "','" . $this->OldNew . "','" . $this->Amount . "',0,'" . $this->OwnerId . "',0)";
+    $sql = "INSERT INTO Goods (TypeId, SaleOrBuy, GoodsName, GoodsDetail, ImageURL, Price, StartTime, OldNew, Amount, IsOver, OwnerId, ClickTimes) VALUES (" . $this->TypeId. "," . $this->SaleOrBuy . ",'" . $this->GoodsName . "','" . $this->GoodsDetail . "','" . $this->ImageURL . "','" . $this->Price . "','" . $this->StartTime . "','" . $this->OldNew . "','" . $this->Amount . "',0,'" . $this->OwnerId . "',0)";
     //执行SQL语句
     $this->conn->query($sql);
   }
 
   function update($id)  {
-    $sql = "UPDATE Goods SET GoodsName='" . $this->GoodsName . "', TypeId=" . $this->TypeId . ", GoodsDetail='" . $this->GoodsDetail . "', Price='" . $this->Price . "', OldNew='" . $this->OldNew . "' WHERE GoodsId=" . $id;
+    $sql = "UPDATE Goods SET GoodsName='" . $this->GoodsName . "', TypeId=" . $this->TypeId . ", GoodsDetail='" . $this->GoodsDetail . "', ImageURL='" . $this->ImageURL . "', Amount='" . $this->Amount . "', Price='" . $this->Price . "', OldNew='" . $this->OldNew . "' WHERE GoodsId=" . $id;
     //执行SQL语句
     $this->conn->query($sql);
   }
@@ -136,6 +136,11 @@ class Goods  {
   // 批量删除信息
   function delete($id) {
     $sql = "DELETE FROM Goods WHERE GoodsId IN (" . $id . ")";
+    $this->conn->query($sql);
+  }
+
+  function admindelete($id) {
+    $sql = "DELETE FROM Goods WHERE OwnerId='".$id."'";
     $this->conn->query($sql);
   }
 }

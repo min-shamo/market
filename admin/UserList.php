@@ -15,7 +15,7 @@ function newwin(url) {
 <?php date_default_timezone_set('Asia/Chongqing'); //系统时间差8小时问题?>
 </head>
 <body link="#000080" vlink="#008080">
-<h3 align="center">用户列表</h3>
+<p style="font-size:20px;padding:10px;text-align:center">用户列表</p>
 <table width='90%' align=center cellspacing=0 cellpadding=0 border=1 bordercolor="#808080" bordercolordark="#FFFFFF" bordercolorlight="#4DA6FF">
 <tr>
 <td align="center" width='10%' bgcolor="#eeeeee"><b>用户名</b></td>
@@ -39,7 +39,7 @@ function newwin(url) {
 <td align=center><?php   echo($row[3]); /*手机*/?>&nbsp;</td>
 <td align="center">
 <?php   if ($row[4]!=1) {//不是Admin的话就添加  删除  操作 ?>
-<a href=UserDelt.php?userid=<?php     echo($row[0]); ?>  onClick="if(confirm('确定删除此用户?')){return newwin(this.href);}return false;">删除</a>
+<a href=UserDelt.php?userid=<?php     echo($row[0]); ?>  onClick="if(confirm('将会删除与此用户相关的所有信息，确定删除此用户?')){return newwin(this.href);}return false;">删除</a>
 <a href="#" data-toggle="modal" data-id="<?php echo($row[0]) ?>" data-target="#myModal-message">发送消息</a>
 <?php
       } ?>&nbsp;

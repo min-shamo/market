@@ -27,8 +27,8 @@
                 //连接数据库，进行身份验证
                 $objUser->GetUsersInfo($UserId);
             ?>
-<div style="margin:0 300px;">
-    <p style="font-size:20px;padding:10px"><span class="glyphicon glyphicon-envelope">&nbsp;</span>用户消息</p>
+<div style="margin:0 250px;">
+    <p style="font-size:20px;padding:10px;text-align:center">用户消息</p>
     <div style="display:flex;justify-content: space-between;">
         <div class="message-left" style="width:100%;">
             <ul id="myTab" class="nav nav-tabs">
@@ -50,7 +50,7 @@
                             $name=$row[2];
                             $content=$row[3];
                     ?>
-                        <li class="message-li1" style="cursor:pointer;display:none">
+                        <li class="message-li1 message-li" style="cursor:pointer;display:none">
                         <div style="padding:10px 15px 10px 15px;display:flex;">
                             <div style="width:80%"  data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="<?PHP echo($row[3]); ?>" title="留言详情">
                                 <div style="display:flex;flex-direction:start;margin-bottom:10px">
@@ -83,7 +83,7 @@
                         {
                             $content=$row[3];
                         ?>
-                        <li class="message-li2" style="cursor:pointer">
+                        <li class="message-li2 message-li" style="cursor:pointer">
                         <div style="padding:10px 15px 10px 15px;display:flex;">
                             <div style="width:80%"  data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="<?PHP echo($row[3]); ?>" title="留言详情">
                                 <div style="display:flex;flex-direction:start;margin-bottom:10px">

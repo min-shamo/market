@@ -69,7 +69,7 @@ function sltNull()  //清空
   $results = $obj->GetBulletinlistall();
   $exist = false;
 ?>
-<p align=center><font style='FONT-SIZE:12pt'><b>公 告 管 理</b></font></p>
+ <p style="font-size:20px;padding:10px;text-align:center">公告管理</p>
 <table align=center border="1" cellspacing="0" width="100%">
   <tr>
    <td width="50%" align="center"><strong>题目</strong></td>

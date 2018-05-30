@@ -13,10 +13,9 @@
 </head>
 
 <body>
-    <img width="100%" height="100%" style="z-index:-1;position:fixed;_position:absolute;left:0;right:0;bottom:0;top:0;" src="../images/back.png">
-    <div style="width:550px;margin: 30px auto;padding:30px;background: #fff;">
+    <div style="width:550px;margin: 30px auto;padding:30px;background: #eee;">
         <form class="form-horizontal" role="form" method="POST" action="AdminSavePwd.php?aid=<?PHP echo($uid); ?>" name="myform" onSubmit="return ChkFields()">
-        <h4 style="text-align:center;margin-bottom:20px">修改密码</h4>
+        <h4 style="text-align:center;margin-bottom:20px">管理员密码修改</h4>
         <div class="form-group">
             <label for="userid" class="col-sm-2 control-label">用户名</label>
             <div class="col-sm-10">

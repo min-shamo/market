@@ -85,5 +85,10 @@ class Message
     $sql="DELETE FROM Message WHERE MessageId='".$id."'";
     $this->conn->query($sql);
   } 
+
+  function admindelete($id) {
+    $sql = "DELETE FROM Message WHERE Recipient='".$id."' OR Sender= '".$id."'";
+    $this->conn->query($sql);
+  }
 }
 ?>

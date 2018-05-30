@@ -9,8 +9,7 @@
   $itype=$_GET["type"];
 ?>
 <body>
-<table border="1" width="100%" cellspacing="0" bordercolorlight="#C0C0C0" bordercolordark="#FFFFFF">
-<tr><td bgcolor=#66CCFF height=24 colspan=2 align="center"><b>商品信息</b></td></tr></table>
+<p style="font-size:20px;padding:10px;text-align:center">商品列表</p>
 <table border=1 width=100% cellspacing=0 bordercolorlight="#C0C0C0" bordercolordark="#FFFFFF">
 <tr  bgcolor="#CCFFFF">
 <td align=center width="16%">商品名称</td>

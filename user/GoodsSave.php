@@ -22,8 +22,8 @@
   $obj->Price=$_POST["price"];
   $obj->StartTime=$_POST["addtime"];
   $obj->OldNew=$_POST["old"];
-  $obj->Invoice=$_POST["Amount"];
-  // $obj->Repaired=$_POST["repaired"];
+  $obj->ImageURL=$_POST["goodimage"];
+  $obj->Amount=$_POST["Amount"];
   // $obj->Carriage=$_POST["carriage"];
   // $obj->PayMode=$_POST["pmode"];
   // $obj->DeliverMode=$_POST["dmode"];
@@ -35,7 +35,6 @@
   }
   else
   {
-    $obj->ImageUrl=$_POST["goodimage"];
     $obj->SaleOrBuy=intval($_POST["saleorbuy"]);
     $obj->insert();
   } 

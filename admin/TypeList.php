@@ -16,7 +16,7 @@
   $objType = new GoodsType();
   $objGoods = new Goods();
 ?>
-<p align='center'><font style="FONT-SIZE: 12pt"><b>商 品 分 类 管 理</b></font></p>
+ <p style="font-size:20px;padding:10px;text-align:center">商品分类管理</p>
 <center>
 <table border="1" cellspacing="0" width="90%"   bordercolorlight="#4DA6FF" bordercolordark="#ECF5FF">
   <tr>
